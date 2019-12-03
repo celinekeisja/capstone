@@ -108,13 +108,13 @@ def get_version(soup, href, file_type):
         table = soup.find("table", attrs={"class": "utilcaption"})
         all_tr = table.find_all("tr")
         td = all_tr[0].find_all("td")
-        version = re.search('\d\.\d\d', td[1].text)
+        version = re.search(str('\d\.\d\d'), td[1].text)
         version = version.group(0)
     elif file_type == 'trans':
         all_a = soup.find('a', attrs={'href': href}).parent.parent
         all_td = all_a.find_all('td')
         try:
-            version = re.search('\d\.\d\d', all_td[-1].text)
+            version = re.search(str('\d\.\d\d'), all_td[-1].text)
             version = version.group(0)
         except:
             version = ''

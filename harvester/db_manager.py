@@ -1,4 +1,4 @@
-from harvester import psycopg2, gp, __name__ as name
+from harvest.harvest import psycopg2, gp, __name__ as name
 import logging.config
 
 logger = logging.getLogger(name)
