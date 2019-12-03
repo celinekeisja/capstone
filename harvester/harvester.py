@@ -3,6 +3,7 @@ import getpass as gp
 import logging.config
 import os
 import re
+from datetime import time
 from urllib.parse import urljoin
 
 import psycopg2
@@ -14,14 +15,21 @@ from requests import get, post
 import db_manager as db
 
 
+def folder():
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    folder_path = os.path.join(basedir, 'harvest_files')
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+    return folder_path
+
+
 def upload(file_name):
     """Upload file to the web service."""
     config = setup_config()
-    url = 'http://localhost:8000/web_service_db/upload'
-    folder = os.path.abspath(os.path.dirname(__file__))+'\\harvest_disk\\'
-    path = os.path.join(folder, file_name)
-    files = {'files': open(path, 'rb')}  # for scraping
-    # files = {'files': open(file_name, 'rb')}  # for postman
+    url = config['harvester']['upload_url']
+    location = folder()
+    path = os.path.join(location, file_name)
+    files = {'files': open(path, 'rb')}
     logger.info(f'Uploads {files} to the web service.')
     r = post(url, files=files)
     status_code = r.status_code
@@ -115,17 +123,16 @@ def get_version(soup, href, file_type):
 
 def download_file(url, href, file_type):
     """Download file to specified path."""
-    config = setup_config()
     logger.info(f'Preparing to download {href}..')
     file = urljoin(url, href)
-    folder = os.path.abspath(os.path.dirname(__file__))+'\\harvest_disk\\'
+    location = folder()
     if file_type == 'main':
         try:
-            path = folder+href.split('/')[2]
+            path = os.path.join(location, href.split('/')[2])
         except:
-            path = folder+href
+            path = os.path.join(location, href)
     elif file_type == 'trans':
-        path = folder+href.split('/')[1]
+        path = os.path.join(location, href.split('/')[1])
     logger.info(f'Downloading {file}..')
 
     request = get(file)
@@ -137,16 +144,14 @@ def download_file(url, href, file_type):
 
 def delete_file(href, file_type):
     """Delete file from local disk."""
-
-    config = setup_config()
-    folder = os.path.abspath(os.path.dirname(__file__))+'\\harvest_disk\\'
+    location = folder()
     if file_type == 'main':
         try:
-            path = folder+href.split('/')[2]
+            path = os.path.join(location, href.split('/')[2])
         except:
-            path = folder+href
+            path = os.path.join(location, href)
     elif file_type == 'trans':
-        path = folder+href.split('/')[1]
+        path = os.path.join(location, href.split('/')[1])
     os.remove(path)
     logger.info(f"Successfully deleted {href}.")
 
@@ -265,7 +270,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # while True:
     logger = logging.getLogger(__name__)
     main()
-    # time.sleep(60)
