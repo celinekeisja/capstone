@@ -42,7 +42,6 @@ paths:
                 sha1:
                   type: string
                   description: SHA1 hash of file
-# make new post with /upload just for saving files
     post:
       operationId: file.create
       tags:
@@ -79,108 +78,234 @@ paths:
     post:
       operationId: file.upload
       consumes:
-        - multipart/form-data
+        - multipart/form-datas
       tags:
         - File
       summary: Upload a file
       description: Upload a new file
       parameters:
-        - name: file
+        - name: files
           in: formData
           description: File to upload
           type: file
       responses:
         201:
           description: Successfully uploaded file record
-#
-#
-#  /harvester_db/{md5}:
-#    get:
-#      operationId: file.read_one
-#      tags:
-#        - File
-#      summary: Read metadata of one file
-#      description: Read metadata of one file
-#      parameters:
-#        - in: query
-#          name: md5
-#          description: MD5 hash of the file to get
-#          type: string
-#        - in: query
-#          name: sha1
-#          description: SHA1 hash of the file to get
-#          type: string
-#      responses:
-#        200:
-#          description: Successfully read metadata from file data operation
-#          schema:
-#            type: object
-#            properties:
-#              id:
-#                type: string
-#                description: Id of the file
-#              file_name:
-#                type: string
-#                description: name of file
-#              file_type:
-#                type: string
-#                description: type of file
-#              file_size:
-#                type: integer
-#                description: Size of file
-#              md5:
-#                type: string
-#                description: MD5 hash of file
-#              sha1:
-#                type: string
-#                description: SHA1 hash of file
-#    put:
-#      operationId: file.update
-#      tags:
-#        - File
-#      summary: Update a file record
-#      description: Update a file record
-#      parameters:
-#        - name: md5
-#          in: path
-#          description: MD5 hash of the file record to update
-#          type: string
-#          required: True
-#        - name: file
-#          in: body
-#          schema:
-#            type: object
-#            properties:
-#              file_name:
-#                type: string
-#                description: Name of file
-#              file_type:
-#                type: string
-#                description: Type of file
-#              file_size:
-#                type: integer
-#                description: Size of file
-#              md5:
-#                type: string
-#                description: MD5 hash of file
-#              sha1:
-#                type: string
-#                description: SHA1 hash of file
-#      responses:
-#        200:
-#          description: Successfully updated file
-#    delete:
-#      operationId: file.delete
-#      tags:
-#        - File
-#      summary: Delete a file record
-#      description: Delete a file record
-#      parameters:
-#        - name: md5
-#          in: path
-#          type: string
-#          description: MD5 hash of the file record to delete
-#          required: true
-#      responses:
-#        200:
-#          description: Successfully deleted a file
+
+
+  /web_service_db/md5/{md5}:
+    get:
+      operationId: file.read_md5
+      tags:
+        - File
+      summary: Read metadata of one file based on an MD5 hash.
+      description: Read metadata of one file based on its MD5 hash
+      parameters:
+        - name: md5
+          in: path
+          description: MD5 hash of the file to get
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read metadata from file data operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Id of the file
+              file_name:
+                type: string
+                description: name of file
+              file_type:
+                type: string
+                description: type of file
+              file_size:
+                type: integer
+                description: Size of file
+              md5:
+                type: string
+                description: MD5 hash of file
+              sha1:
+                type: string
+                description: SHA1 hash of file
+    put:
+      operationId: file.update_md5
+      tags:
+        - File
+      summary: Update a file record
+      description: Update a file record
+      parameters:
+        - name: md5
+          in: path
+          description: MD5 hash of the file record to update
+          type: string
+          required: True
+        - name: file
+          in: body
+          schema:
+            type: object
+            properties:
+              file_name:
+                type: string
+                description: Name of file
+              file_type:
+                type: string
+                description: Type of file
+              file_size:
+                type: integer
+                description: Size of file
+              md5:
+                type: string
+                description: MD5 hash of file
+              sha1:
+                type: string
+                description: SHA1 hash of file
+      responses:
+        200:
+          description: Successfully updated file record
+          schema:
+            properties:
+              id:
+                type: integer
+                description: Id of the file
+              file_name:
+                type: string
+                description: name of file
+              file_type:
+                type: string
+                description: type of file
+              file_size:
+                type: integer
+                description: Size of file
+              md5:
+                type: string
+                description: MD5 hash of file
+              sha1:
+                type: string
+                description: SHA1 hash of file
+
+    delete:
+      operationId: file.delete_md5
+      tags:
+        - File
+      summary: Delete a file record
+      description: Delete a file record
+      parameters:
+        - name: md5
+          in: path
+          type: string
+          description: MD5 hash of the file rec ord to delete
+          required: true
+      responses:
+        200:
+          description: Successfully deleted a file
+
+  /web_service_db/sha1/{sha1}:
+    get:
+      operationId: file.read_sha1
+      tags:
+        - File
+      summary: Read metadata of one file based on an MD5 hash.
+      description: Read metadata of one file based on its MD5 hash
+      parameters:
+        - name: sha1
+          in: path
+          description: SHA1 hash of the file to get
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read metadata from file data operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Id of the file
+              file_name:
+                type: string
+                description: name of file
+              file_type:
+                type: string
+                description: type of file
+              file_size:
+                type: integer
+                description: Size of file
+              md5:
+                type: string
+                description: MD5 hash of file
+              sha1:
+                type: string
+                description: SHA1 hash of file
+    put:
+      operationId: file.update_sha1
+      tags:
+        - File
+      summary: Update a file record
+      description: Update a file record
+      parameters:
+        - name: sha1
+          in: path
+          description: SHA1 hash of the file record to update
+          type: string
+          required: True
+        - name: file
+          in: body
+          schema:
+            type: object
+            properties:
+              file_name:
+                type: string
+                description: Name of file
+              file_type:
+                type: string
+                description: Type of file
+              file_size:
+                type: integer
+                description: Size of file
+              md5:
+                type: string
+                description: MD5 hash of file
+              sha1:
+                type: string
+                description: SHA1 hash of file
+      responses:
+        200:
+          description: Successfully updated file record
+          schema:
+            properties:
+              id:
+                type: integer
+                description: Id of the file
+              file_name:
+                type: string
+                description: name of file
+              file_type:
+                type: string
+                description: type of file
+              file_size:
+                type: integer
+                description: Size of file
+              md5:
+                type: string
+                description: MD5 hash of file
+              sha1:
+                type: string
+                description: SHA1 hash of file
+    delete:
+      operationId: file.delete_sha1
+      tags:
+        - File
+      summary: Delete a file record
+      description: Delete a file record
+      parameters:
+        - name: sha1
+          in: path
+          type: string
+          description: SHA1 hash of the file record to delete
+          required: true
+      responses:
+        200:
+          description: Successfully deleted a file

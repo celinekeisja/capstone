@@ -14,34 +14,43 @@ from requests import get, post
 import db_manager as db
 
 
-# 1st password: docker
-# 2nd password: docker
-
-
 def upload(file_name):
+    """Upload file to the web service."""
+    config = setup_config()
     url = 'http://localhost:8000/web_service_db/upload'
-    
-    file = {file_name: open(file_name, 'rb')}
-    r = post(url, files=file)
+    folder = os.path.abspath(os.path.dirname(__file__))+'\\harvest_disk\\'
+    path = os.path.join(folder, file_name)
+    files = {'files': open(path, 'rb')}  # for scraping
+    # files = {'files': open(file_name, 'rb')}  # for postman
+    logger.info(f'Uploads {files} to the web service.')
+    r = post(url, files=files)
     status_code = r.status_code
     return status_code
 
 
 def re_download(url, href, file_type):
+    """Re-download the file."""
     # delete existing file
     delete_file(href, file_type)
 
     # download updated file
     download_file(url, href, file_type)
 
+    logger.info('Re-downloaded file.')
+
 
 def compare_versions(soup, href, conn, file_name, file_type):
+    """Compare the two versions of the file."""
     # getcurrent version
-    curr_version = float(get_version(soup, href, file_type))
+    curr_version = get_version(soup, href, file_type)
+    if curr_version == '':
+        curr_version = float(0)
 
     # get version in table
-    db_version = float(db.get_recorded_version(conn, file_name))
-    if curr_version > db_version:
+    db_version = db.get_recorded_version(conn, file_name)
+    if db_version == '':
+        db_version = float(0)
+    if float(curr_version) > float(db_version):
         return True
     else:
         return False
@@ -55,13 +64,13 @@ def check_updates(soup, conn, href, url, file_name, file_type):
         logger.info(f'Attempting to re-download {file_name}..')
         try:
             re_download(url, href, file_type)
+            # re-uploads file to web service
+            upload(file_name)
         except:
             logger.error('Unable to redownload file')
         logger.info(f'Updating record of {file_name} in table..')
         # update existing tracking data to table
         db.update_record(conn, get_version(soup, href, file_type), file_name)
-
-        # upload(file_name)
 
 
 def extract_data(file_name, version):
@@ -109,19 +118,20 @@ def download_file(url, href, file_type):
     config = setup_config()
     logger.info(f'Preparing to download {href}..')
     file = urljoin(url, href)
+    folder = os.path.abspath(os.path.dirname(__file__))+'\\harvest_disk\\'
     if file_type == 'main':
         try:
-            path = '{}{}'.format(config['harvester']['download_path'], href.split('/')[2])
+            path = folder+href.split('/')[2]
         except:
-            path = '{}{}'.format(config['harvester']['download_path'], href)
+            path = folder+href
     elif file_type == 'trans':
-        path = '{}{}'.format(config['harvester']['download_path'], href.split('/')[1])
+        path = folder+href.split('/')[1]
     logger.info(f'Downloading {file}..')
 
     request = get(file)
     with open(path, 'wb') as file:
         file.write(request.content)
-    logger.info(f'Downnloaded {file}.')
+    logger.info(f'Downloaded {extract_complete_filename(href, file_type)}.')
     return "Successfully downloaded file."
 
 
@@ -129,13 +139,14 @@ def delete_file(href, file_type):
     """Delete file from local disk."""
 
     config = setup_config()
+    folder = os.path.abspath(os.path.dirname(__file__))+'\\harvest_disk\\'
     if file_type == 'main':
         try:
-            path = '{}{}'.format(config['harvester']['download_path'], href.split('/')[2])
+            path = folder+href.split('/')[2]
         except:
-            path = '{}{}'.format(config['harvester']['download_path'],href)
+            path = folder+href
     elif file_type == 'trans':
-        path = '{}{}'.format(config['harvester']['download_path'], href.split('/')[1])
+        path = folder+href.split('/')[1]
     os.remove(path)
     logger.info(f"Successfully deleted {href}.")
 
@@ -146,7 +157,7 @@ def crawl(base_url, url, unqs, conn):
     html_links = soup.find_all('a', href=True)
     for link in html_links:
         href = link['href']
-        if href not in unqs:  # think need to remove this
+        if href not in unqs:
             if link.has_attr('class'):
                 if link['class'][0] == 'downloadline' and (href.endswith('exe') or href.endswith('zip')):
                     logger.info("Main file: {}".format(href))
@@ -172,6 +183,9 @@ def crawl(base_url, url, unqs, conn):
                         # inserting tracking data to table
                         db.database_insert(conn, file_version_data)
 
+                        # uploads file to web service
+                        upload(file_name)
+
             elif href.startswith('utils'):
                 logger.info("Downloads page: {}{}".format(base_url, href))
                 loc = "{}{}".format(base_url, href)
@@ -184,6 +198,7 @@ def crawl(base_url, url, unqs, conn):
                 # getting complete file name
                 file_name = extract_complete_filename(href, file_type)
 
+                # checking if a record exists for the file in the database
                 if db.exists(conn, file_name):
                     check_updates(soup, conn, href, url, file_name, file_type)
                 else:
@@ -198,6 +213,10 @@ def crawl(base_url, url, unqs, conn):
 
                     # inserting tracking data to table
                     db.database_insert(conn, file_version_data)
+
+                    # uploads the file in the web service
+                    upload(file_name)
+
             unqs.append(href)
 
 
