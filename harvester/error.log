@@ -1,0 +1,91 @@
+2019-11-29 08:28:23,894 - __main__ - ERROR - Error in connection - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 08:28:23,896 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-29 12:28:51,609 - harvester - ERROR - Error in creating database - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 13:49:30,503 - __main__ - ERROR - Error in connection - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 13:49:30,503 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-29 15:46:37,570 - harvester - ERROR - Error in creating database - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 15:46:40,819 - __main__ - ERROR - Error in connection - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 15:46:40,819 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-29 15:46:50,026 - __main__ - ERROR - Error in connection - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 15:46:50,026 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-29 15:46:55,979 - __main__ - ERROR - Error in connection - FATAL:  database "harvester_db" does not exist
+
+2019-11-29 15:46:55,980 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-29 15:55:43,685 - harvester - ERROR - Error in creating database - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 15:55:45,601 - __main__ - ERROR - Error in connection - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 15:55:45,604 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-29 16:05:00,814 - harvester - ERROR - Error in creating database - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 16:05:03,598 - __main__ - ERROR - Error in connection - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 16:05:03,598 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-29 16:05:08,494 - harvester - ERROR - Error in creating database - FATAL:  password authentication failed for user "postgres"
+
+2019-11-29 16:23:14,904 - harvester - ERROR - Error in creating database - could not translate host name "pg-docker" to address: Unknown host
+
+2019-11-29 16:23:20,046 - __main__ - ERROR - Error in connection - could not translate host name "pg-docker" to address: Unknown host
+
+2019-11-29 16:23:20,047 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-29 16:23:43,563 - harvester - ERROR - Error in creating database - FATAL:  password authentication failed for user "postgres"
+
+2019-11-30 11:35:29,662 - harvester - ERROR - Error in creating database - could not connect to server: Connection refused (0x0000274D/10061)
+	Is the server running on host "localhost" (::1) and accepting
+	TCP/IP connections on port 54320?
+could not connect to server: Connection refused (0x0000274D/10061)
+	Is the server running on host "localhost" (127.0.0.1) and accepting
+	TCP/IP connections on port 54320?
+
+2019-11-30 11:35:36,312 - __main__ - ERROR - Error in connection - could not connect to server: Connection refused (0x0000274D/10061)
+	Is the server running on host "localhost" (::1) and accepting
+	TCP/IP connections on port 54320?
+could not connect to server: Connection refused (0x0000274D/10061)
+	Is the server running on host "localhost" (127.0.0.1) and accepting
+	TCP/IP connections on port 54320?
+
+2019-11-30 11:35:36,313 - harvester - ERROR - Error while creating table - 'NoneType' object has no attribute 'cursor'.
+2019-11-30 12:46:45,819 - __main__ - ERROR - Unable to insert record - relation "file_version" does not exist
+LINE 1: INSERT INTO file_version 
+                    ^
+
+2019-11-30 12:46:45,822 - __main__ - ERROR - Unable to insert record - current transaction is aborted, commands ignored until end of transaction block
+
+2019-11-30 12:46:46,758 - __main__ - ERROR - Unable to insert record - current transaction is aborted, commands ignored until end of transaction block
+
+2019-11-30 13:02:48,341 - __main__ - ERROR - Unable to insert record - invalid input syntax for type integer: "1.92"
+LINE 3:             VALUES ('webbrowserpassview.zip', '1.92');
+                                                      ^
+
+2019-11-30 13:02:48,344 - __main__ - ERROR - Unable to insert record - current transaction is aborted, commands ignored until end of transaction block
+
+2019-11-30 13:02:49,477 - __main__ - ERROR - Unable to insert record - current transaction is aborted, commands ignored until end of transaction block
+
+2019-11-30 13:02:50,634 - __main__ - ERROR - Unable to insert record - current transaction is aborted, commands ignored until end of transaction block
+
+2019-11-30 13:02:50,640 - __main__ - ERROR - Unable to insert record - current transaction is aborted, commands ignored until end of transaction block
+
+2019-11-30 13:05:58,103 - __main__ - ERROR - Unable to insert record - invalid input syntax for type integer: "1.92"
+LINE 3:             VALUES ('webbrowserpassview.zip', '1.92');
+                                                      ^
+
+2019-11-30 13:05:58,106 - __main__ - ERROR - Unable to insert record - current transaction is aborted, commands ignored until end of transaction block
+
+2019-11-30 13:05:59,043 - __main__ - ERROR - Unable to insert record - current transaction is aborted, commands ignored until end of transaction block
+
+2019-11-30 14:04:43,150 - harvester - ERROR - Error in creating database - FATAL:  password authentication failed for user "postgres"
+
+2019-11-30 18:07:31,784 - __main__ - ERROR - Unable to insert record - can't adapt type 're.Match'
+2019-11-30 18:07:31,804 - __main__ - ERROR - Unable to insert record - can't adapt type 're.Match'
+2019-11-30 18:07:33,088 - __main__ - ERROR - Unable to insert record - can't adapt type 're.Match'
+2019-11-30 18:07:34,189 - __main__ - ERROR - Unable to insert record - can't adapt type 're.Match'
+2019-11-30 18:07:34,195 - __main__ - ERROR - Unable to insert record - can't adapt type 're.Match'
+2019-11-30 18:07:35,647 - __main__ - ERROR - Unable to insert record - can't adapt type 're.Match'
+2019-11-30 18:07:36,675 - __main__ - ERROR - Unable to insert record - can't adapt type 're.Match'
+2019-11-30 18:07:36,677 - __main__ - ERROR - Unable to insert record - can't adapt type 're.Match'
